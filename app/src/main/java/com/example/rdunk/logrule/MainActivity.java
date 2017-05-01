@@ -1,0 +1,60 @@
+package com.example.rdunk.logrule;
+
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+public class MainActivity extends AppCompatActivity {
+
+    public int width_min = 6;
+    public int width_max = 60;
+    public int width_inc = 1;
+    public int length_min = 6;
+    public int length_max = 16;
+    public int length_inc = 2;
+    public boolean metric = false;
+    public static boolean decimal = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        createTable();
+
+
+    }
+
+    private void createTable() {
+        TableLayout tl = (TableLayout) findViewById(R.id.tl);
+        TableRow.LayoutParams trlp = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        trlp.weight = 1;
+        for(int width = width_min;width<width_max;width += width_inc) {
+            TableRow tr = new TableRow(this);
+            TextView wtv = new TextView(this);
+            wtv.setLayoutParams(trlp);
+            wtv.setText(String.valueOf(width));
+            tr.addView(wtv);
+            for (int length = length_min; length < length_max; length += length_inc) {
+                TextView x = new TextView(this);
+                x.setLayoutParams(trlp);
+                double bdft = Calculator.calc_doyle_bdft(width, length);
+                if(decimal){
+                    x.setText(String.valueOf(bdft));
+                }
+                else{
+                    x.setText(String.valueOf(Math.round(bdft)));
+                }
+                tr.addView(x);
+            }
+            tl.addView(tr);
+        }
+    }
+}
