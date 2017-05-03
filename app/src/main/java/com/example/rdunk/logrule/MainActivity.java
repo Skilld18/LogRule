@@ -69,5 +69,17 @@ public class MainActivity extends AppCompatActivity {
             }
             tl.addView(tr);
         }
+
+        TableRow header = (TableRow) findViewById(R.id.header);
+        TextView col_header = new TextView(this);
+        col_header.setText(R.string.width);
+        col_header.setLayoutParams(trlp);
+        header.addView(col_header);
+        for (int length = length_min; length < length_max; length += length_inc) {
+            col_header = new TextView(this);
+            col_header.setText(String.valueOf(length));
+            col_header.setLayoutParams(trlp);
+            header.addView(col_header);
+        }
     }
 }
